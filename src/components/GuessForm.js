@@ -11,7 +11,7 @@ export class GuessForm extends React.Component {
 
     onGuess(e) {
         e.preventDefault()
-        let guess = this.input.value
+        let guess = this.input.value.toLowerCase()
         this.props.dispatch(makeGuess(guess))
         this.input.value = ''
     }
