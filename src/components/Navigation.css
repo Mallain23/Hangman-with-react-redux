@@ -1,0 +1,22 @@
+.nav-links, header {
+  display: inline-block;
+}
+
+.nav-bar {
+  border-bottom: 1px solid black;
+  padding: 10px;
+  background-color: black;
+}
+
+header {
+  font-size: 22px;
+  margin-left: 10px;
+  color: grey;
+  border-right: 3px solid grey;
+  padding-right: 10px;
+}
+
+.nav-bar-item {
+  margin-left: 15px;
+  font-size: 18px;
+}
