@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
-import Game from './components/Game';
+import Game from './components/Game/Game';
 import store from './store';
 import './index.css';
 

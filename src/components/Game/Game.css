@@ -1,0 +1,21 @@
+h1 {
+  text-align: center;
+}
+
+.game-element {
+  text-align: center;
+}
+
+.new-game-button {
+  border: 1px solid black;
+  font-size: 42px;
+  padding: 10px;
+  background-color: black;
+  margin-top: 200px;
+}
+
+.new-game-button:hover {
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}

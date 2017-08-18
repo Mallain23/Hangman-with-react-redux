@@ -9,10 +9,10 @@ import WordDisplay from './WordDisplay'
 import HangmanDisplay from './HangmanDisplay'
 import './GameWindow.css'
 
-
+// simple names, display is implied by component -
 export class GameWindow extends React.Component {
-    
-    renderCorrectDisplay() {
+
+    renderContent() {
         return this.props.showInput === false ? <NewGameButton /> : <GuessForm />
     }
 
@@ -24,7 +24,7 @@ export class GameWindow extends React.Component {
                 <GuessDisplay />
                 <h3>{feedback}</h3>
                 <HangmanDisplay />
-                {this.renderCorrectDisplay()}
+                {this.renderContent()}
                 <WordDisplay />
               </div>
         )

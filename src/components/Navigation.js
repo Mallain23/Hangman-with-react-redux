@@ -1,5 +1,6 @@
 import React from 'react'
 import './Navigation.css'
+import { Nav, NavItem, Navbar } from 'react-bootstrap';
 
 import NewGameButton from './NewGameButton'
 import ToggleInfoButton from './ToggleInfoButton'
@@ -8,12 +9,14 @@ import ToggleInfoButton from './ToggleInfoButton'
 export default function Navigation(props) {
 
     return (
-        <nav className="nav-bar">
-            <header className="game-title">Hangman</header>
-              <div className='nav-links'>
-                  <span className='nav-bar-item'><NewGameButton className='nav-new-game-button'/></span>
-                  <span className='nav-bar-item'><ToggleInfoButton /></span>
-              </div>
-        </nav>
+        <Navbar inverse>
+            <Navbar.Header>
+                <Navbar.Brand>Hangman</Navbar.Brand>
+            </Navbar.Header>
+            <Nav bsStyle="pills">
+                <NavItem><NewGameButton className='nav-button' /></NavItem>
+                <NavItem><ToggleInfoButton className='nav-button'/></NavItem>
+            </Nav>
+        </Navbar>
     )
 };

@@ -17,7 +17,7 @@ export class ToggleInfoButton extends React.Component {
     };
 
     render() {
-      return <a href="#" onClick={this.handleClick}>Info</a>
+      return <button className={this.props.className} onClick={this.handleClick}>Info</button>
     };
 };
 

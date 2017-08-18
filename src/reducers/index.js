@@ -1,24 +1,31 @@
 import * as actions from '../actions';
-import { images } from '../utils/images'
+import { images } from '../utils/images';
+import { feedback } from '../utils/constants'
+
+const randomWords = require('random-words');
+
+const { NEW_GAME, CORRECT_GUESS, WRONG_GUESS, DUPLICATE_GUESS, GAME_OVER } = feedback;
 
 const initialState = {
             startGame: false,
             targetWord: '',
-            wordDisplay: '',
+            wordDisplay: [],
             priorGuesses: [],
             remainingLives: 6,
             showInput: true,
             showInfo: false,
             imageIndex: 0,
             hangmanPicture: images[0],
-            feedback: "Guess a letter to begin the game!"
-}
-
+            feedback: NEW_GAME
+};
+//change name of wordDisplay and targetWord
 export default (state=initialState, action) => {
 
    if (action.type === actions.START_NEW_GAME) {
 
-      let { startGame, targetWord, wordDisplay, showInput } = action
+        let { startGame, showInput } = action
+        const targetWord = randomWords()
+        const wordDisplay = targetWord.split('').map(letter => '_')
 
         return Object.assign({}, state, {
             startGame,
@@ -29,7 +36,7 @@ export default (state=initialState, action) => {
             showInput,
             imageIndex: 0,
             hangmanPicture: images[state.imageIndex],
-            feedback: "Guess a letter to begin the game!"
+            feedback: NEW_GAME
         });
     }
 
@@ -58,29 +65,29 @@ export default (state=initialState, action) => {
 
         if (priorGuesses.includes(guess)) {
               return Object.assign({}, state, {
-                  feedback: `You have already guessed ${guess}, guess a different letter!`
+                  feedback: DUPLICATE_GUESS
               });
         }
 
         else if (indexArray.length < 1 && remainingLives > 1) {
 
-            const newImageIndex = imageIndex + 1
-            const hangmanPicture = images[newImageIndex]
-            const priorGuessesArray = [...priorGuesses, guess]
+            const newImageIndex = imageIndex + 1;
+            const hangmanPicture = images[newImageIndex];
+            const priorGuessesArray = [...priorGuesses, guess];
 
             const commonObject = {
               priorGuesses: priorGuessesArray,
               imageIndex: newImageIndex,
               hangmanPicture
-            }
+            };
 
-            const moreThanOneLife = remainingLives > 1
+            const moreThanOneLife = remainingLives > 1;
 
             return Object.assign({}, state, {
                   ...commonObject,
                   remainingLives: Math.max(remainingLives - 1, 0),
                   wordDisplay: moreThanOneLife ? wordDisplay : targetWord,
-                  feedback: moreThanOneLife ?  `Sorry there are no ${guess}'s, try again!` : 'Sorry, you have no more guesses left! The Game is over.'
+                  feedback: moreThanOneLife ?  WRONG_GUESS : GAME_OVER
             });
 
         }
@@ -90,7 +97,7 @@ export default (state=initialState, action) => {
         return Object.assign({}, state, {
             wordDisplay: newWordDisplay,
             priorGuesses: [...priorGuesses, guess],
-            feedback: `Correct guess!`
+            feedback: CORRECT_GUESS
         });
 
     }

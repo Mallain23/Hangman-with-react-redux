@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {startNewGame} from '../actions'
 import './NewGameButton.css'
 
-const randomWords = require('random-words')
+import { Button } from 'react-bootstrap'
 
 export class NewGameButton extends React.Component {
     static propTypes = {
@@ -18,17 +18,13 @@ export class NewGameButton extends React.Component {
 
     handleClick(e) {
         e.preventDefault()
-
-        const targetWord = randomWords()
-        const wordDisplay = targetWord.split('').map(letter => '_')
-
-        this.props.dispatch(startNewGame(targetWord, wordDisplay))
+        this.props.dispatch(startNewGame())
     };
 
     render() {
       const { className } = this.props;
 
-      return <a className={`${className} link`} href="#" onClick={this.handleClick}>New Game</a>;
+      return <button className={`${className} link`} onClick={this.handleClick}>New Game</button>;
     };
 };
 
