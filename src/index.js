@@ -9,10 +9,10 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-                <Provider store={store}>
-                    <Game />
-                </ Provider>,
-                document.getElementById('root')
-              );
+    <Provider store={store}>
+        <Game />
+    </ Provider>,
+    document.getElementById('root')
+);
 
 registerServiceWorker();

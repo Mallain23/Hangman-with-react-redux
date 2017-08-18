@@ -11,7 +11,7 @@ import './Game.css'
 export class Game extends React.Component {
 
     renderPage() {
-        return this.props.startGame === true ? <GameWindow /> : <NewGameButton />
+        return this.props.startGame === true ? <GameWindow /> : <NewGameButton className='new-game-button'/>
     };
 
     render() {

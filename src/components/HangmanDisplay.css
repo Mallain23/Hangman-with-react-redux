@@ -1,0 +1,12 @@
+.hangman-display-container {
+  border: 2px solid black;
+  width: 20%;
+  height: 60%;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.remaining-lives {
+  font-size: 20px;
+  margin-top: 10px;
+}

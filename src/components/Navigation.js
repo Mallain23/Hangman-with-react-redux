@@ -11,7 +11,7 @@ export default function Navigation(props) {
         <nav className="nav-bar">
             <header className="game-title">Hangman</header>
               <div className='nav-links'>
-                  <span className='nav-bar-item'><NewGameButton /></span>
+                  <span className='nav-bar-item'><NewGameButton className='nav-new-game-button'/></span>
                   <span className='nav-bar-item'><ToggleInfoButton /></span>
               </div>
         </nav>

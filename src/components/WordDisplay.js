@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 export function WordDisplay (props) {
-
+      console.log(props.wordDisplay)
       let word = props.wordDisplay
 
       if (typeof word === 'object') {

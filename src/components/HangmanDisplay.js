@@ -1,10 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
+import './HangmanDisplay.css'
+
 export function HangmanDisplay (props) {
 
     return (
-        <div className="Hangman-display-container">
+        <div className="hangman-display-container">
             <div className="remaining-lives">Remaing Lives: {props.remainingLives}</div>
             <div className="hangman-picture"><img src={props.hangmanPicture}/></div>
         </div>

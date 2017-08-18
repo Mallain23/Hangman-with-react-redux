@@ -1,14 +1,5 @@
 import * as actions from '../actions';
-
-const images = ['https://s3.postimg.org/vni2firyr/Screen_Shot_2017-08-16_at_2.33.15_PM.png',
-                'https://s22.postimg.org/f5d2dxnk1/Screen_Shot_2017-08-16_at_2.27.02_PM.png',
-                'https://s11.postimg.org/f0a6dd4vn/Screen_Shot_2017-08-16_at_2.27.11_PM.png',
-                'https://s2.postimg.org/dkqvz7zd5/Screen_Shot_2017-08-16_at_2.27.19_PM.png',
-                'https://s27.postimg.org/bxi50i09v/Screen_Shot_2017-08-16_at_2.27.38_PM.png',
-                'https://s12.postimg.org/5yebnt6r1/Screen_Shot_2017-08-16_at_2.27.47_PM.png',
-                'https://s12.postimg.org/9d9m3uqi5/Screen_Shot_2017-08-16_at_2.28.02_PM.png']
-
-let imageIndex = 0
+import { images } from '../utils/images'
 
 const initialState = {
             startGame: false,
@@ -16,87 +7,93 @@ const initialState = {
             wordDisplay: '',
             priorGuesses: [],
             remainingLives: 6,
-            feedback: "Guess a letter to begin the game!",
             showInput: true,
             showInfo: false,
             imageIndex: 0,
-            hangmanPicture: images[imageIndex]
+            hangmanPicture: images[0],
+            feedback: "Guess a letter to begin the game!"
 }
 
 export default (state=initialState, action) => {
 
    if (action.type === actions.START_NEW_GAME) {
 
-        let { startGame, targetWord, wordDisplay, showInput } = action
-        imageIndex = 0
+      let { startGame, targetWord, wordDisplay, showInput } = action
 
         return Object.assign({}, state, {
             startGame,
             targetWord,
             wordDisplay,
-            showInput,
-            remainingLives: 6,
             priorGuesses: [],
-            hangmanPicture: images[imageIndex],
+            remainingLives: 6,
+            showInput,
+            imageIndex: 0,
+            hangmanPicture: images[state.imageIndex],
             feedback: "Guess a letter to begin the game!"
-        })
+        });
     }
 
     else if (action.type === actions.TOGGLE_INFO) {
         return Object.assign({}, state, {
             showInfo: !state.showInfo
-        })
+        });
     }
 
     else if (action.type === actions.MAKE_GUESS) {
 
-        const { guess } = action
-        let targetWord = state.targetWord
-        let wordDisplay = state.wordDisplay
+        const {
+            targetWord,
+            wordDisplay,
+            priorGuesses,
+            remainingLives,
+            imageIndex
+        } = state
 
-        let newWordDisplay = []
-        let indexArray = []
+        const { guess } = action;
+
+        let newWordDisplay = [];
+        let indexArray = [];
 
         targetWord.split('').forEach((letter, index) => letter === guess ? indexArray.push(index) : '')
 
-        if (state.priorGuesses.includes(guess)) {
+        if (priorGuesses.includes(guess)) {
               return Object.assign({}, state, {
                   feedback: `You have already guessed ${guess}, guess a different letter!`
-              })
+              });
         }
 
-        else if (indexArray.length < 1 && state.remainingLives > 1) {
-            imageIndex++
+        else if (indexArray.length < 1 && remainingLives > 1) {
+
+            const newImageIndex = imageIndex + 1
+            const hangmanPicture = images[newImageIndex]
+            const priorGuessesArray = [...priorGuesses, guess]
+
+            const commonObject = {
+              priorGuesses: priorGuessesArray,
+              imageIndex: newImageIndex,
+              hangmanPicture
+            }
+
+            const moreThanOneLife = remainingLives > 1
 
             return Object.assign({}, state, {
-                remainingLives: state.remainingLives - 1,
-                hangmanPicture: images[imageIndex],
-                feedback: `Sorry there are no ${guess}'s, try again!`,
-                priorGuesses: [...state.priorGuesses, guess]
-            })
+                  ...commonObject,
+                  remainingLives: Math.max(remainingLives - 1, 0),
+                  wordDisplay: moreThanOneLife ? wordDisplay : targetWord,
+                  feedback: moreThanOneLife ?  `Sorry there are no ${guess}'s, try again!` : 'Sorry, you have no more guesses left! The Game is over.'
+            });
+
         }
 
-        else if (indexArray.length < 1 && state.remainingLives <= 1) {
-              imageIndex++
-
-             return Object.assign({}, state, {
-                showInput: false,
-                feedback: 'Sorry, you have no more guesses left! The Game is over.',
-                wordDisplay: targetWord,
-                hangmanPicture: images[imageIndex],
-                remainingLives: 0,
-                priorGuesses: [...state.priorGuesses, guess]
-            })
-        }
-
-        newWordDisplay = wordDisplay.map((letter, index) => indexArray.includes(index) ? guess : letter)
+        newWordDisplay = wordDisplay.map((currentCharacter, index) => indexArray.includes(index) ? guess : currentCharacter)
 
         return Object.assign({}, state, {
             wordDisplay: newWordDisplay,
-            priorGuesses: [...state.priorGuesses, guess],
+            priorGuesses: [...priorGuesses, guess],
             feedback: `Correct guess!`
-        })
+        });
+
     }
 
     return state
-}
+};

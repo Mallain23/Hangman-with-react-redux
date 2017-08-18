@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import {connect} from 'react-redux';
 import {startNewGame} from '../actions'
 import './NewGameButton.css'
@@ -6,6 +6,10 @@ import './NewGameButton.css'
 const randomWords = require('random-words')
 
 export class NewGameButton extends React.Component {
+    static propTypes = {
+        className: PropTypes.string
+    }
+
     constructor(props) {
         super(props)
 
@@ -22,7 +26,9 @@ export class NewGameButton extends React.Component {
     };
 
     render() {
-      return <a className='link' href="#" onClick={this.handleClick}>New Game</a>
+      const { className } = this.props;
+
+      return <a className={`${className} link`} href="#" onClick={this.handleClick}>New Game</a>;
     };
 };
 
